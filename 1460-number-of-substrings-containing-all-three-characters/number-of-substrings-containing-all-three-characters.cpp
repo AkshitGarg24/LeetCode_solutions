@@ -1,24 +1,17 @@
 class Solution {
 public:
+    int min(int &a,int &b,int &c){
+        if(a<=b && a<=c) return a;
+        if(b<=a && b<=c) return b;
+        return c;
+    }
     int numberOfSubstrings(string s) {
-        int l = 0, r = 0, maxlen = 0, count = 0;
-        unordered_map<char,int> m;
-        while(r<s.size()){
-            if(m.count(s[r])==0){
-                count++;
-            }
-            m[s[r]]++;
-            while(count==3){
-                maxlen += s.size()-r;
-                m[s[l]]--;
-                if(m[s[l]]==0){
-                    count--;
-                    m.erase(s[l]);
-                }
-                l++;
-            }
-            r++;
+        int ans = 0;
+        vector<int> lastseen(3,-1);
+        for(int i=0;i<s.size();i++){
+            lastseen[s[i]-'a'] = i;
+            ans += min(lastseen[0],lastseen[1],lastseen[2]) + 1;
         }
-        return maxlen;
+        return ans;
     }
 };
