@@ -7,17 +7,18 @@ public:
         int sum = 0;
         while (h < nums.size()) {
             sum += nums[h];
-            if(sum>=target){
-                ans = min(ans,h-l+1);
-                while(sum-nums[l]>=target){
+            if (sum >= target) {
+                ans = min(ans, h - l + 1);
+                while (sum - nums[l] >= target) {
                     sum -= nums[l];
                     l++;
-                    ans = min(ans,h-l+1);
+                    ans = min(ans, h - l + 1);
                 }
             }
             h++;
         }
-        if(ans==INT_MAX) return 0;
+        if (ans == INT_MAX)
+            return 0;
         return ans;
     }
 };
