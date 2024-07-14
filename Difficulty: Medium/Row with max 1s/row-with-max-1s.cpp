@@ -8,17 +8,26 @@ using namespace std;
 class Solution {
   public:
     int rowWithMax1s(vector<vector<int> > arr) {
-       for(int i=0;i<arr[0].size();i++){
-           for(int j=0;j<arr.size();j++){
-               if(arr[j][i]==1){
-                    return j;
-               }
-               
-           
-           }
-           
-       }
-       return -1;
+        int ans = 0;
+        int idx = -1;
+        for(int i=0;i<arr.size();i++){
+            int l = 0;
+            int h = arr[i].size()-1;
+            while(l<=h){
+                int mid = l+(h-l)/2;
+                if(arr[i][mid]==1){
+                    if(arr[i].size()-mid>ans){
+                        ans = arr[i].size()-mid;
+                        idx = i;
+                    }
+                    h = mid-1;
+                }
+                else {
+                    l = mid+1;
+                }
+            }
+        }
+        return idx;
     }
 };
 
