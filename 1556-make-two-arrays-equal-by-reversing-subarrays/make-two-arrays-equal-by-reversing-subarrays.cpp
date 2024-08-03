@@ -4,8 +4,9 @@ public:
         unordered_map<int,int> m;
         for(int i=0;i<target.size();i++){
             m[target[i]]++;
-        }
-        for(int i=0;i<arr.size();i++){
+            if(m[target[i]]==0){
+                m.erase(target[i]);
+            }
             m[arr[i]]--;
             if(m[arr[i]]==0){
                 m.erase(arr[i]);
