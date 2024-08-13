@@ -1,35 +1,38 @@
 class Solution {
 public:
-    void func(vector<int> &candidates,int target,int &sum,vector<int> &x,int idx,vector<vector<int>> &ans){
+    void func(vector<int> &candidates,int target,int &sum,vector<vector<int>> &ans,vector<int> &x,int idx){
         if(sum>target){
             return;
         }
-        if(sum==target || idx>=candidates.size()){
+        if(sum==target || idx==candidates.size()){
             if(sum==target){
                 ans.push_back(x);
+                return;
             }
-            return;
         }
-        x.push_back(candidates[idx]);
-        sum += candidates[idx];
-        func(candidates,target,sum,x,idx+1,ans);
-        x.pop_back();
-        sum -= candidates[idx];
-        int i = idx+1;
-        while(i<candidates.size() && candidates[i]==candidates[idx]){
-            i++;
+        while(idx<candidates.size()){
+            sum += candidates[idx];
+            x.push_back(candidates[idx]);
+            func(candidates,target,sum,ans,x,idx+1);
+            sum -= candidates[idx];
+            x.pop_back();
+            int i = idx;
+            while(i<candidates.size() && candidates[idx]==candidates[i]){
+                i++;
+            }
+            if(i>=candidates.size()){
+                return;
+            }
+            idx = i;
         }
-        if(i==candidates.size()){
-            return;
-        }
-        func(candidates,target,sum,x,i,ans);
+        
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         sort(candidates.begin(),candidates.end());
-        vector<vector<int>> ans;
         int sum = 0;
+        vector<vector<int>> ans;
         vector<int> x;
-        func(candidates,target,sum,x,0,ans);
+        func(candidates,target,sum,ans,x,0);
         return ans;
     }
 };
