@@ -1,17 +1,16 @@
 class Solution {
 public:
-    int climbStairs(int n) {
+    int func(int n,vector<int> &dp){
         if(n==1 || n==2){
             return n;
         }
-        int a = 1;
-        int b  = 2;
-        int ans;
-        for(int i=3;i<=n;i++){
-            ans = a + b;
-            a = b;
-            b = ans;
+        if(dp[n]!=-1){
+            return dp[n];
         }
-        return ans;
+        return dp[n] = func(n-1,dp) + func(n-2,dp);
+    }
+    int climbStairs(int n) {
+        vector<int> dp(n+1,-1);
+        return func(n,dp);
     }
 };
