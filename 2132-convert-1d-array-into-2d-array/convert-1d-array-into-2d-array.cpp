@@ -4,15 +4,13 @@ public:
         if(m*n!=original.size()){
             return {};
         }
-        vector<vector<int>> ans;
+        vector<vector<int>> ans(m,vector<int> (n));
         int x = 0;
         for(int i=0;i<m;i++){
-            vector<int> a;
             for(int j=0;j<n;j++){
-                a.push_back(original[x]);
+                ans[i][j] = original[x];
                 x++;
             }
-            ans.push_back(a);
         }
         return ans;
     }
