@@ -13,25 +13,25 @@ public:
     vector<ListNode*> splitListToParts(ListNode* head, int k) {
         vector<ListNode*> x;
         int size = 0;
-        ListNode *temp = head;
-        while(temp!=NULL){
+        ListNode* temp = head;
+        while (temp != NULL) {
             size++;
             temp = temp->next;
         }
         temp = head;
-        int a = size/k;
-        int b = size%k;
-        for(int i=0;i<k;i++){
-            ListNode *m = new ListNode(-1);
-            ListNode *n = m;
+        int a = size / k;
+        int b = size % k;
+        for (int i = 0; i < k; i++) {
+            ListNode* m = new ListNode(-1);
+            ListNode* n = m;
             int q = a;
-            cout<<q;
-            while(q--){
+            cout << q;
+            while (q--) {
                 n->next = new ListNode(temp->val);
                 temp = temp->next;
                 n = n->next;
             }
-            if(b>0){
+            if (b > 0) {
                 n->next = new ListNode(temp->val);
                 temp = temp->next;
                 b--;
