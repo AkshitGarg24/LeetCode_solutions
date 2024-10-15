@@ -1,17 +1,17 @@
 class Solution {
 public:
-    long long maxKelements(vector<int>& nums, int k) {
-        long long int ans = 0;
-        multiset<int,greater<int>> s;
-        for(int i=0;i<nums.size();i++){
-            s.insert(nums[i]);
-        }
-        for(int i=0;i<k;i++){
-            int x = *s.begin();
-            ans += x;
-            s.erase(s.find(x));
-            int y = ceil((double)x/3);
-            s.insert(y);
+    long long maxKelements(vector<int>& nums, int k) 
+    {
+        priority_queue<int>pq;
+        for(auto val:nums) 
+            pq.push(val);
+        
+        long long ans = 0, val;
+        while(k--)
+        {
+            val = pq.top(); pq.pop();
+            ans += val;
+            pq.push(ceil(double(val/3.0)));
         }
         return ans;
     }
