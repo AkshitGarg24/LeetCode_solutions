@@ -6,37 +6,29 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  
-    bool detect(vector<vector<int>> &adj,vector<int> &vis,int i){
-        queue<pair<int,int>> q;
-        q.push({i,-1});
-        while(!q.empty()){
-            pair<int,int> x = q.front();
-            q.pop();
-            if(vis[x.first]==0){
-                vis[x.first] = 1;
-                for(auto a : adj[x.first]){
-                    if(!vis[a]){
-                        q.push({a,x.first});
-                    }
-                    else if(x.second!=a){
-                        return true;
-                    }
+    
+    bool dfs(vector<vector<int>> &adj,vector<int> &vis,int i,int parent){
+        vis[i] = 1;
+        for(auto x : adj[i]){
+            if(vis[x]==0){
+                bool m = dfs(adj,vis,x,i);
+                if(m==true){
+                    return true;
                 }
-            } else {
+            } else if(vis[x]==1 && parent!=x){
                 return true;
             }
         }
         return false;
     }
-  
+    
     bool isCycle(vector<vector<int>> adj) {
         vector<int> vis(adj.size(),0);
         for(int i=0;i<adj.size();i++){
-            if(!vis[i]){
-                bool ans = detect(adj,vis,i);
-                if(ans){
-                    return ans;
+            if(vis[i]==0){
+                bool x = dfs(adj,vis,i,-1);
+                if(x==true){
+                    return true;
                 }
             }
         }
