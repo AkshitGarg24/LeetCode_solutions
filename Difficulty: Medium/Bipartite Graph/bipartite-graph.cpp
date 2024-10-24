@@ -6,23 +6,20 @@ using namespace std;
 class Solution {
 public:
 
-    bool bfs(int v,vector<int> adj[],vector<int> &vis,int i){
-        queue<int> q;
-        q.push(i);
-        while(!q.empty()){
-            int a = q.front();
-            q.pop();
-            for(auto x : adj[a]){
-                if(vis[x]==0){
-                    if(vis[a]==1){
-                        vis[x] = 2;
-                    } else {
-                        vis[x] = 1;
-                    }
-                    q.push(x);
-                } else if(vis[x]==vis[a]){
+    bool dfs(int v,vector<int>adj[],vector<int> &vis,int i){
+        for(auto x : adj[i]){
+            if(vis[x]==0){
+                if(vis[i]==1){
+                    vis[x] = 2;
+                } else {
+                    vis[x] = 1;
+                }
+                bool m = dfs(v,adj,vis,x);
+                if(!m){
                     return false;
                 }
+            } else if(vis[x]==vis[i]){
+                return false;
             }
         }
         return true;
@@ -33,7 +30,7 @@ public:
 	    for(int i=0;i<v;i++){
 	        if(vis[i]==0){
 	            vis[i] = 1;
-	            bool m = bfs(v,adj,vis,i);
+	            bool m = dfs(v,adj,vis,i);
 	            if(!m){
 	                return false;
 	            }
