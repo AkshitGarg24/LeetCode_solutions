@@ -1,23 +1,39 @@
 //{ Driver Code Starts
 #include <bits/stdc++.h>
-
 using namespace std;
+
 /* Link list Node */
 struct Node {
     int data;
-    struct Node *next;
+    struct Node* next;
+
     Node(int x) {
         data = x;
-        next = NULL;
+        next = nullptr;
     }
 };
 
-struct Node *start = NULL;
+void printList(Node* node) {
+    while (node != NULL) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+    cout << "\n";
+}
+
+void freeList(struct Node* head) {
+    struct Node* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
 
 
 // } Driver Code Ends
 /*
- 
+
   Node is defined as
   struct Node {
     int data;
@@ -29,98 +45,75 @@ struct Node *start = NULL;
 };
 
 */
-class Solution
-{
-    public:
-    //Function to sort a linked list of 0s, 1s and 2s.
-    Node* segregate(Node *head) {
-        
+class Solution {
+  public:
+    // Function to sort a linked list of 0s, 1s and 2s.
+    Node* segregate(Node* head) {
+
         Node *zero = new Node(-1);
+        Node *zeroptr = zero;
         Node *one = new Node(-1);
+        Node *oneptr = one;
         Node *two = new Node(-1);
-        Node *zerotemp = zero;
-        Node *onetemp = one;
-        Node *twotemp = two;
-        Node *temp = head;
-        while(temp!=NULL){
-            if(temp->data==0){
-                zerotemp->next = new Node(0);
-                zerotemp = zerotemp->next;
+        Node *twoptr = two;
+        while(head!=NULL){
+            if(head->data==0){
+                zero->next = new Node(0);
+                zero = zero->next;
             }
-            if(temp->data==1){
-                onetemp->next = new Node(1);
-                onetemp = onetemp->next;
+            else if(head->data==1){
+                one->next = new Node(1);
+                one = one->next;
+            } else {
+                two->next = new Node(2);
+                two = two->next;
             }
-            if(temp->data==2){
-                twotemp->next = new Node(2);
-                twotemp = twotemp->next;
-            }
-            temp = temp->next;
+            head = head->next;
         }
-        Node *ans = new Node(-1);
-        temp = ans;
-        if(zero->next!=NULL){
-            temp->next = zero->next;
-            temp = zerotemp;
-        }
-        if(one->next!=NULL){
-            temp->next = one->next;
-            temp = onetemp;
-        }
-        if(two->next!=NULL){
-            temp->next = two->next;
-            temp = twotemp;
-        }
-       return ans->next; 
+        one->next = twoptr->next;
+        zero->next = oneptr->next;
+        Node *ans = zeroptr->next;
+        
+        
+        return ans;
+        
     }
 };
 
 
 //{ Driver Code Starts.
 
-// Function to sort a linked list of 0s, 1s and 2s
-void printList(struct Node *Node) {
-    while (Node != NULL) {
-        printf("%d ", Node->data);
-        Node = Node->next;
-    }
-    printf("\n");
-}
-
-/* Drier program to test above function*/
-void insert(int n1) {
-    int n, value, i;
-    // scanf("%d",&n);
-    n = n1;
-    struct Node *temp;
-    for (i = 0; i < n; i++) {
-        scanf("%d", &value);
-
-        if (i == 0) {
-            start = new Node(value);
-            temp = start;
-            continue;
-        } else {
-            temp->next = new Node(value);
-            temp = temp->next;
-            temp->next = NULL;
-        }
-    }
-}
-
+// Driver program to test above functions
 int main() {
-
-    int n;
-
-    int t;
-    scanf("%d", &t);
+    int t, k;
+    cin >> t;
+    cin.ignore(); // Ignore the newline character after t
 
     while (t--) {
-        scanf("%d", &n);
+        string input;
+        getline(cin, input); // Read the entire line for the array elements
 
-        insert(n);
+        stringstream ss(input);
+        Node *head = nullptr, *tail = nullptr;
+        int x;
+
+        if (ss >> x) {
+            head = new Node(x);
+            tail = head;
+
+            while (ss >> x) {
+                tail->next = new Node(x);
+                tail = tail->next;
+            }
+
+            // Link the last node to the head if k is 1 to make it circular
+            if (k == 1) {
+                tail->next = head;
+            }
+        }
+
         Solution ob;
-        struct Node *newHead = ob.segregate(start);
+        Node* newHead = ob.segregate(head);
         printList(newHead);
     }
 
