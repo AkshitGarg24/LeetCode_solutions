@@ -20,7 +20,7 @@ public:
         if(head==NULL){
             return NULL;
         }
-        map<Node *,Node *> m;
+        unordered_map<Node *,Node *> m;
         Node *x = new Node(head->val);
         Node *head2 = x;
         m[head] = x;
