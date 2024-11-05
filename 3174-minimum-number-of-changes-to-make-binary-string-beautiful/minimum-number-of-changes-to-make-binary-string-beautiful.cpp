@@ -8,7 +8,7 @@ public:
             if(x==s[i]){
                 cnt++;
             } else {
-                if(cnt%2!=0){
+                if(cnt&1!=0){
                     ans++;
                     if(i+1<s.size()){
                         x = s[i+1];
