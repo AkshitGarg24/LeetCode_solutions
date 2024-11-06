@@ -11,21 +11,25 @@ public:
             }
             v.push_back({nums[i],cnt});
         }
-        for(int i=0;i<v.size()-1;i++){
-            bool check = false;
-            for(int j=0;j<v.size()-1;j++){
-                if(v[j].first>v[j+1].first && v[j].second!=v[j+1].second){
+        int a = INT_MIN, b = INT_MIN;
+        int x = nums[0], y = nums[0];
+        for(int i=1;i<nums.size();i++){
+            if(v[i].second==v[i-1].second){
+                x = min(x,v[i].first);
+                y = max(y,v[i].first);
+            } else {
+                if(x<b){
                     return false;
                 }
-                if(v[j].first>v[j+1].first && v[j].second==v[j+1].second){
-                    swap(v[j],v[j+1]);
-                    check = true;
-                }
-            }
-            if(check==false){
-                return true;
+                a = x;
+                b = y;
+                x = v[i].first;
+                y = v[i].first;
             }
         }
-        return true;
+        if (x < b) {
+            return false;
+        }
+        return true; 
     }
 };
