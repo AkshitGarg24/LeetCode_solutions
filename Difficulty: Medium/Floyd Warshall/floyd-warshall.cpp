@@ -11,11 +11,10 @@ using namespace std;
 class Solution {
   public:
     void shortestDistance(vector<vector<int>>& mat) {
+        
         for(int i=0;i<mat.size();i++){
             for(int j=0;j<mat.size();j++){
-                if(i==j){
-                    mat[i][j] = 0;
-                } else if (mat[i][j]==-1){
+                if(mat[i][j]==-1){
                     mat[i][j] = 1e9;
                 }
             }
@@ -31,7 +30,7 @@ class Solution {
         
         for(int i=0;i<mat.size();i++){
             for(int j=0;j<mat.size();j++){
-                if (mat[i][j]== 1e9){
+                if(mat[i][j]==1e9){
                     mat[i][j] = -1;
                 }
             }
