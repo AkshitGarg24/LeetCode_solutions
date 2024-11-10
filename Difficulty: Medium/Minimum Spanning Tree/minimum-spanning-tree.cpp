@@ -7,24 +7,47 @@ class Solution
 {
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+	
+	int findParent(vector<int> &parent,int i){
+	    if(parent[i]==i){
+	        return i;
+	    }
+	    return parent[i] = findParent(parent,parent[i]);
+	}
+	
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         int ans = 0;
-        vector<int> vis(V,0);
-        priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> pq;
-        pq.push({0,0});
+        vector<int> rank(V,0);
+        vector<int> parent(V);
+        for(int i=0;i<V;i++){
+            parent[i] = i;
+        }
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        for(int i=0;i<V;i++){
+            for(auto x : adj[i]){
+                pq.push({x[1],x[0],i});
+            }
+        }
+        
         while(!pq.empty()){
-            int wt = pq.top().first;
-            int node = pq.top().second;
+            int a = findParent(parent,pq.top()[1]);
+            int b = findParent(parent,pq.top()[2]);
+            int wt = pq.top()[0];
             pq.pop();
-            if(!vis[node]){
-                vis[node] = 1;
-                ans += wt;
-                for(auto x : adj[node]){
-                    if(!vis[x[0]]){
-                        pq.push({x[1],x[0]});
-                    }
-                }
+            if(a==b){
+                continue;
+            }
+            ans += wt;
+            if(rank[a]>rank[b]){
+                parent[b] = a;
+            }
+            else if(rank[a]<rank[b]){
+                parent[a] = b;
+            }
+            else {
+                parent[a] = b;
+                rank[a]++;
             }
         }
         return ans;
