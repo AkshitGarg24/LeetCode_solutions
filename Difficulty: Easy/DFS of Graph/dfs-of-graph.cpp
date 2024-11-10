@@ -6,23 +6,27 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    void dfs(int node,vector<int> &vis,vector<int> &ans,vector<vector<int>>& adj){
-        if(vis[node]==1){
-            return;
-        }
-        vis[node] = 1;
-        ans.push_back(node);
-        for(auto it : adj[node]){
-            if(vis[it]!=1){
-                dfs(it,vis,ans,adj);
+    // Function to return a list containing the DFS traversal of the graph.
+    
+    void dfs(vector<int> &vis,vector<vector<int>> &adj,vector<int> &ans,int i){
+        ans.push_back(i);
+        for(auto x : adj[i]){
+            if(!vis[x]){
+                vis[x] = 1;
+                dfs(vis,adj,ans,x);
             }
         }
     }
+    
     vector<int> dfsOfGraph(vector<vector<int>>& adj) {
-        vector<int> vis(adj.size(),-1);
+        vector<int> vis(adj.size(),0);
         vector<int> ans;
-        
-        dfs(0,vis,ans,adj);
+        for(int i=0;i<adj.size();i++){
+            if(!vis[i]){
+                vis[i] = 1;
+                dfs(vis,adj,ans,i);
+            }
+        }
         return ans;
     }
 };
@@ -52,6 +56,7 @@ int main() {
             cout << ans[i] << " ";
         }
         cout << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
