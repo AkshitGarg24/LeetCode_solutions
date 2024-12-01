@@ -7,36 +7,24 @@ using namespace std;
 class Solution {
   public:
     
-    void check(vector<pair<int,int>> &v,int &ans,int i,int cntcapa,int cntvala,int capacity){
-        if(cntcapa>capacity){
-            return;
+    int check(int capacity,vector<int> &val,vector<int> &wt,vector<vector<int>> &dp,int i){
+        if(i==val.size() || capacity==0){
+            return 0;
         }
-        
-        if(i==v.size()){
-            ans = max(ans,cntvala);
-            return;
+        if(dp[i][capacity]!=-1){
+            return dp[i][capacity];
         }
-        
-        cntcapa += v[i].second;
-        cntvala += v[i].first;
-        check(v,ans,i+1,cntcapa,cntvala,capacity);
-        cntcapa -= v[i].second;
-        cntvala -= v[i].first;
-        check(v,ans,i+1,cntcapa,cntvala,capacity);
-        return;
+        int take = INT_MIN, nottake;
+        nottake = check(capacity,val,wt,dp,i+1);
+        if(capacity>=wt[i]){
+            take = val[i] + check(capacity-wt[i],val,wt,dp,i+1);
+        }
+        return dp[i][capacity] = max(take,nottake);
     }
-      
+    
     int knapSack(int capacity, vector<int> &val, vector<int> &wt) {
-        vector<pair<int,int>> v;
-        for(int i=0;i<val.size();i++){
-            v.push_back({val[i],wt[i]});
-        }
-        int ans = INT_MIN;
-        int i = 0;
-        int cntcapa = 0;
-        int cntvala = 0;
-        check(v,ans,i,cntcapa,cntvala,capacity);
-        return ans;
+        vector<vector<int>> dp(val.size()+1,vector<int> (capacity+1,-1));
+        return check(capacity,val,wt,dp,0);
     }
 };
 
