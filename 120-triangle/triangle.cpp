@@ -1,17 +1,20 @@
 class Solution {
 public:
-    int check(vector<vector<int>> &triangle, int i,int j,vector<vector<int>> &dp){
-        if(i==triangle.size()){
-            return 0;
-        }
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        return dp[i][j] = triangle[i][j] + min(check(triangle,i+1,j,dp),check(triangle,i+1,j+1,dp));
-    }
-
     int minimumTotal(vector<vector<int>>& triangle) {
-        vector<vector<int>> dp(triangle.size(),vector<int> (triangle.size(),-1));
-        return check(triangle,0,0,dp);
+        vector<vector<int>> dp(triangle.size()+1,vector<int> (triangle.size(),-1));
+        for(int i=0;i<triangle.size();i++){
+            dp[triangle.size()][i] = 0;
+        }
+        for(int i=triangle.size()-1;i>=0;i--){
+            for(int j=i;j>=0;j--){
+                int a = INT_MAX, b = INT_MAX;
+                a = dp[i+1][j];
+                if(j+1<triangle.size()){
+                    b = dp[i+1][j+1];
+                }
+                dp[i][j] = triangle[i][j] + min(a,b);
+            }
+        }
+        return dp[0][0];
     }
 };
