@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int check(vector<int> &nums,int target,int i){
+    int check(vector<int> &nums,int target,int i,map<pair<int,int>,int> &m){
         if(i==0){
             int ans = 0;
             int a = target-nums[0];
@@ -13,11 +13,15 @@ public:
             }
             return ans;
         }
-        int a = check(nums,target-nums[i],i-1);
-        int b = check(nums,target+nums[i],i-1);
-        return a+b;
+        if(m.find({i,target})!=m.end()){
+            return m[{i,target}];
+        }
+        int a = check(nums,target-nums[i],i-1,m);
+        int b = check(nums,target+nums[i],i-1,m);
+        return m[{i,target}] = a+b;
     }
     int findTargetSumWays(vector<int>& nums, int target) {
-        return check(nums,target,nums.size()-1);
+        map<pair<int,int>,int> m;
+        return check(nums,target,nums.size()-1,m);
     }
 };
