@@ -1,24 +1,22 @@
 class Solution {
 public:
-    int check(int amount,vector<int> &coins,int idx,vector<vector<int>> &dp){
-        if(amount<0){
-            return 0;
-        }
-        if(amount==0){
-            return 1;
-        }
-        if(dp[idx][amount]!=-1){
-            return dp[idx][amount];
-        }
-        int ans = 0;
-        for(int i=idx;i<coins.size();i++){
-            ans += check(amount-coins[i],coins,i,dp);
-        }
-        return dp[idx][amount] = ans;
-    }
-
     int change(int amount, vector<int>& coins) {
-        vector<vector<int>> dp(coins.size(),vector<int> (amount+1,-1));
-        return check(amount,coins,0,dp);
+        vector<vector<int>> dp(coins.size(),vector<int> (amount+1));
+        for(int i=coins.size()-1;i>=0;i--){
+            for(int j=0;j<amount+1;j++){
+                if(j==0){
+                    dp[i][j] = 1;
+                    continue;
+                }
+                long long int ans = 0;
+                for(int x=i;x<coins.size();x++){
+                    if(j-coins[x]>=0){
+                        ans += dp[x][j-coins[x]];
+                    }
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[0][amount];
     }
 };
