@@ -1,24 +1,18 @@
 class Solution {
 public:
-    int check(vector<int> &coins,int amount,vector<int> &dp){
-        if(amount<0){
-            return 1e9;
-        }
-        if(amount==0){
-            return 0;
-        }
-        if(dp[amount]!=-1){
-            return dp[amount];
-        }
-        int ans = INT_MAX;
-        for(int i=0;i<coins.size();i++){
-            ans = min(ans,1 + check(coins,amount-coins[i],dp));
-        }
-        return dp[amount] = ans;
-    }
     int coinChange(vector<int>& coins, int amount) {
-        vector<int> dp(amount+1,-1);
-        int a = check(coins,amount,dp);
+        vector<int> dp(amount+1);
+        dp[0] = 0;
+        for(int i=1;i<amount+1;i++){
+            int ans = 1e9;
+            for(int j=0;j<coins.size();j++){
+                if(i-coins[j]>=0){
+                    ans = min(ans,1+dp[i-coins[j]]);
+                }
+            }
+            dp[i] = ans;
+        }
+        int a = dp[amount];
         if(a>=1e9){
             return -1;
         }
