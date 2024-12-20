@@ -1,7 +1,7 @@
 class Solution {
 public:
     int check(vector<int> &nums,int i,int a,vector<vector<int>> &dp){
-        if(i<0){
+        if(i==0){
             return 0;
         }
         if(dp[i][a]!=-1){
@@ -15,13 +15,13 @@ public:
         } else {
             maxi = nums[a];
         }
-        if(nums[i]<maxi){
-            ans = max(ans,1 + check(nums,i-1,i,dp));
+        if(nums[i-1]<maxi){
+            ans = max(ans,1 + check(nums,i-1,i-1,dp));
         }
         return dp[i][a] = ans;
     }
     int lengthOfLIS(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size(),vector<int> (nums.size()+1,-1));
-        return check(nums,nums.size()-1,nums.size(),dp);
+        vector<vector<int>> dp(nums.size()+1,vector<int> (nums.size()+1,-1));
+        return check(nums,nums.size(),nums.size(),dp);
     }
 };
