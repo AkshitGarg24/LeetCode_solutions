@@ -1,28 +1,18 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& arr) {
-        int n = arr.size();
-       vector<int> next(n+1,0);
-    
-        vector<int> cur(n+1,0);
-        
-        for(int ind = n-1; ind>=0; ind --){
-            for (int prev_index = ind-1; prev_index >=-1; prev_index --){
-                
-                int notTake = 0 + next[prev_index +1];
-        
-                int take = 0;
-        
-                if(prev_index == -1 || arr[ind] > arr[prev_index]){
-                    
-                    take = 1 + next[ind+1];
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size()+1,0);
+        vector<int> temp(nums.size()+1);
+        for(int i=1;i<nums.size()+1;i++){
+            for(int j=0;j<nums.size()+1;j++){
+                temp[j] = 0;
+                temp[j] = max(temp[j],dp[j]);
+                if(j==nums.size() || nums[i-1]<nums[j]){
+                    temp[j] = max(temp[j],1 + dp[i-1]);
                 }
-        
-                cur[prev_index+1] = max(notTake,take);
             }
-            next = cur;
+            dp = temp;
         }
-        
-        return cur[0];
+        return dp[nums.size()];
     }
 };
