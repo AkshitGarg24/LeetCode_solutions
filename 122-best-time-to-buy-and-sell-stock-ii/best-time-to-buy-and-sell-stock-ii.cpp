@@ -1,27 +1,19 @@
 class Solution {
 public:
-    int check(vector<int> &nums,int i,bool buy,vector<vector<int>> &dp){
-        if(i==nums.size()-1){
-            if(buy){
-                return nums[i];
-            }
-            return 0;
-        }
-        if(dp[i][buy]!=-1){
-            return dp[i][buy];
-        }
-        int ans = 0;
-        ans = max(ans,check(nums,i+1,buy,dp));
-        if(!buy){
-            ans = max(ans,-nums[i] + check(nums,i+1,!buy,dp)); 
-        }
-        else {
-            ans = max(ans,nums[i] + check(nums,i+1,!buy,dp));
-        }
-        return dp[i][buy] = ans;
-    }
     int maxProfit(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size(),vector<int> (2,-1));
-        return check(nums,0,false,dp);
+        vector<vector<int>> dp(nums.size(),vector<int> (2,0));
+        dp[nums.size()-1][0] = 0;
+        dp[nums.size()-1][1] = nums[nums.size()-1];
+        for(int i=nums.size()-2;i>=0;i--){
+            for(int j=1;j>=0;j--){
+                dp[i][j] = max(dp[i][j],dp[i+1][j]);
+                if(j==0){
+                    dp[i][j] = max(dp[i][j],dp[i+1][1]-nums[i]);
+                } else {
+                    dp[i][j] = max(dp[i][j],nums[i] + dp[i+1][0]);
+                }
+            }
+        }
+        return dp[0][0];
     }
 };
