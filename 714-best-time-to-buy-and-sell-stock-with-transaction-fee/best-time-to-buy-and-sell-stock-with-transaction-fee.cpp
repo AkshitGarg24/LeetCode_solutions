@@ -1,20 +1,22 @@
 class Solution {
 public:
     int maxProfit(vector<int>& nums, int fee) {
+        vector<int> dp (2,0);
         vector<int> temp(2);
-        int a = 0;   
-        int b = nums[nums.size()-1] - fee;  
+        dp[0] = 0;
+        dp[1] = nums[nums.size()-1] - fee;
         for(int i=nums.size()-2;i>=0;i--){
             for(int j=1;j>=0;j--){
+                temp[j] = 0;
+                temp[j] = max(temp[j],dp[j]);
                 if(j==0){
-                    temp[j] = max(a,b-nums[i]);
+                    temp[j] = max(temp[j],dp[1]-nums[i]);
                 } else {
-                    temp[j] = max(b,nums[i] + a-fee);
+                    temp[j] = max(temp[j],nums[i] + dp[0] - fee);
                 }
             }
-            a = temp[0];
-            b = temp[1];
+            dp = temp;
         }
-        return a;
+        return dp[0];
     }
 };
