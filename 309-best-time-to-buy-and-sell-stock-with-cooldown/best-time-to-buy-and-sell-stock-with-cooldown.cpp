@@ -4,12 +4,6 @@ public:
         if(i>=nums.size()){
             return 0;
         }
-        if(i==nums.size()-1){
-            if(buy){
-                return nums[i];
-            }
-            return 0;
-        }
         if(dp[i][buy]!=-1){
             return dp[i][buy];
         }
@@ -24,7 +18,7 @@ public:
         return dp[i][buy] = ans;
     }
     int maxProfit(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size(),vector<int> (2,-1));
+        vector<vector<int>> dp(nums.size()+1,vector<int> (2,-1));
         return check(nums,0,false,dp);
     }
 };
