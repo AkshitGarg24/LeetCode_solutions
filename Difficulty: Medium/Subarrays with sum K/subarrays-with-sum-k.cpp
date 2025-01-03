@@ -9,19 +9,19 @@ using namespace std;
 
 class Solution {
   public:
-    int findSubArraySum(int k, vector<int> &nums) {
+    int countSubarrays(vector<int> &arr, int k) {
         int ans = 0;
+        int x = 0;
         unordered_map<int,int> m;
-        int sum = 0;
-        for(int i=0;i<nums.size();i++){
-            sum += nums[i];
-            if(sum==k){
+        for(int i=0;i<arr.size();i++){
+            x += arr[i];
+            if(x==k){
                 ans++;
             }
-            if(m.find(sum-k)!=m.end()){
-                ans += m[sum-k];
+            if(m.find(x-k)!=m.end()){
+                ans += m[x-k];
             }
-            m[sum]++;
+            m[x]++;
         }
         return ans;
     }
@@ -48,7 +48,7 @@ int main() {
             arr.push_back(number);
         }
         Solution obj;
-        cout << obj.findSubArraySum(k, arr);
+        cout << obj.countSubarrays(arr, k);
         cout << endl;
         cout << "~"
              << "\n";
