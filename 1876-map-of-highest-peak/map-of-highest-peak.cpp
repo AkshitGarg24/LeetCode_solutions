@@ -9,6 +9,7 @@ public:
         for(int i=0;i<nums.size();i++){
             for(int j=0;j<nums[0].size();j++){
                 if(nums[i][j]){
+                    vis[i][j] = 1;
                     q.push({{i,j},0});
                 }
             }
@@ -17,17 +18,16 @@ public:
             auto m = q.front();
             int i = m.first.first, j = m.first.second, val = m.second;
             q.pop();
-            if(!vis[i][j]){
                 ans[i][j] = val;
-                vis[i][j] = 1;
                 for(int k=0;k<4;k++){
                     int a = i+x[k];
                     int b = j + y[k];
                     if(a>=0 && a<nums.size() && b>=0 && b<nums[0].size() && !vis[a][b]){
+                        vis[a][b] = 1;
                         q.push({{a,b},val+1});
                     }
                 }
-            }
+            
         }
         return ans;
     }
