@@ -6,7 +6,7 @@ public:
         }
         int ans = 1;
         int cnt = 1;
-        bool check = false;  // 0 for dec and 1 for inc
+        bool check = false; 
         for(int i = 1;i<nums.size();i++){
             if(nums[i]==nums[i-1]){
                 cnt = 1;
