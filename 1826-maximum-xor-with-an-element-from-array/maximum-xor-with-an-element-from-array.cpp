@@ -1,13 +1,8 @@
 class Node {
     vector<Node*> link;
-    bool flag;
 public:
     Node() {
         link = vector<Node*>(2, NULL);
-        flag = false;
-    }
-    void setFlag() {
-        flag = true;
     }
     bool containsKey(int bit) {
         return link[bit] != NULL;
@@ -35,7 +30,6 @@ public:
             }
             x = x->getKey(bit);
         }
-        x->setFlag();
     }
     int getMaxXOR(int num) {
         Node* x = root; 
